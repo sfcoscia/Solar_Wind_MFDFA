@@ -1,0 +1,91 @@
+Clean up code, transfer to Jupyter
+	Write notes in Markdown
+Choose the right lags*
+Use the test cases - FGM*
+Look at cropped mag data
+
+##Iterating arguments:
+#for args in [ [listofargs], [anotherlistofargs] ]:
+#instead of f(*listofargs)
+
+Back Monday the 6th
+jmbroll at gmail
+jbroll at proton
+
+
+#For later:
+
+http://grad.space.swri.edu/
+
+
+Jan 17th:
+---------------------------------------
+Singularity Spectrum 
+
+Test multiple hurst parameters
+
+What we are looking at: 
+
+We always use FFT for solar wind and assume stationarity 
+We may find nonstationarity 
+DO we see a change in the multifractality - is it reasonable to assume
+stationarity - what is our translation
+
+How far outside the stationarity regime can we get and still have reasonable
+estimations from FFT methods that assume stationarity?
+
+TEST THE ALFVEN RADIUS/ALFVEN SURFACE
+
+Look at a few different places along the solar wind trajectory to see if we have
+different spectral and multifractal characteristics.
+ - If so, what does that mean? 
+
+------------------------------------------------------
+NEXT STEPS:
+
+Ransac - Use to fit a bunch of lines
+- Find the best biggest line segments you can
+- Look at Histogram of the differences of each fit 
+
+Calculate the Singularity Spectrum 
+
+Test a few different Hurst Parameters using FGN code
+
+Test some things we know aren't fractal - take favorite statistical model
+- Laser time sequence
+
+MEMSPEC on GitHub - MESA 
+- Autoregressive fits
+
+-----------------------------------------------------
+NEXT STEPS:
+
+plot fluctuation function pcolormesh
+
+https://datacolada.org/
+
+slide deck 
+
+Solar wind as a turbulence laboratory
+
+Shocks : Collisionless shocks
+- Balock and Troyman 
+- Scholarpedia
+- Plasma Physics
+
+Textbook for plasma physics : Introduction to Plasma Physics
+
+2 directions : Foundation, current
+
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
