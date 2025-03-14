@@ -16,7 +16,6 @@ from scipy import signal
 
 #############################################################################
 
-#  This is the main function we will use to run our helper functions:
 def MFDFA_analysis(timeSeries, timeSeries2 = None):
 
     """
@@ -224,7 +223,7 @@ def flucFunc(bmag, lag, qList, order):
 
 #############################################################################
 
-def hList(lag, qList, dfaList):
+def hList(lag, dfaListT):
     """
     Calculates the Hurst spectrum, h(q) from the input fluctuation function
     data. 
@@ -233,8 +232,9 @@ def hList(lag, qList, dfaList):
     ----------
     lag : 1D array
         The set of lags used in the fluctuation function.
-    dfaList : 2D array
-        The fluctuation function evaluated for each laga and each value of q.
+    dfaListT : 2D array
+        The transpose of the fluctuation function evaluated for each lag and
+each value of q in the form : [[F_q1(s1),F_q1(s2),...],[F_q2(s1),F_q2(s1),...]]
     qList : 1D array 
         An array containing the scaling exponents of the fluctuation function,
         q. 
@@ -248,14 +248,12 @@ def hList(lag, qList, dfaList):
     hList=[]
     
     # For every q in our list of powers, we find the Hurst parameter:
-    for dfa in dfaList:
+    for dfa in dfaListT:
         # We fit to a 1st degree polynomial for a linear fit
-        H=np.polyfit(np.log(lag)[2:len(lag)],np.log(dfa[2:len(lag)]),1)[0]
+        H = np.polyfit(np.log(lag[2:len(lag)]),np.log(dfa[2:len(lag)]),1)[0]
         hList.append(H)
 
     return hList
-
-
 
 #############################################################################
 
