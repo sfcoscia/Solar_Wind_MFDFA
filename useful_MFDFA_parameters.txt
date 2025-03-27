@@ -1,0 +1,29 @@
+The purpose of this text file is to describe a few quantities of interest that
+can be calculated from MFDFA. 
+
+-----------------------------------------------------------------------------
+
+Asymmetry parameter : Determines how the multifractal spectrum is skewed. 
+
+	A = (alpha_max - alpha_0) / (alpha_0 - alpha_min),
+	where alpha_max is the maximum value of alpha at the base of the 
+	concave graph, alpha_min is the minimum value of alpha at the base
+ 	of the concave graph, and alpha_0 is the alpha value where the MF
+	spectrum is at a maximum.
+
+For A = 1 the spectrum is symmetric.
+
+For A > 1 the spectrum is right-skewed symmetric (has a long right tail).
+
+	- This indicates that the spectrum has greater contributions from small
+	  fluctuations.
+
+For A < 1 the spectrum is left-skewed symmetric (has a long left tail)
+
+	- This indicates that the spectrum has greater contributions from large
+	  fluctuations.
+
+-----------------------------------------------------------------------------
+
+R^2 Coefficient : Can be used to determine how linear the Renyi exponent
+spectrum.
