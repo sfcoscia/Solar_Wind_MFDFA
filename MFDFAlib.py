@@ -199,15 +199,15 @@ def flucFunc(bmag, lag, qList, order):
            [[F_q1(s1), F_q1(s2), ...], [F_q2(s1), F_q2(s2), ...], ...].
      
     """
+    # First determine the log of the lags and the fluctuation matrix
+    logdfa = np.log(dfaList.T)
+    logs = np.log(lag)
+
     # for every q, determine the F_q vs. s plot.
     for q in range(len(dfaList.T)): # The transpose is taken here!
-        # Calculate the log of the DFA list and the lag:
-        logdfa = np.log(dfaList.T[q])
-        logs = np.log(lag)
-        # Create a constant array to hold the q value for each F_q(s):
-        qArray=np.full(len(lag),qList[q])
         # Here we plot the fluctuation function with a color bar for each q value:
-        sc = ax.scatter(logs,logdfa,c=qArray,s=8, cmap='inferno', vmin=-20, vmax=20)
+        qArray=np.full(len(lag),qList[q])
+        sc = ax.scatter(logs,logdfa[q],c = qArray,s = 8, cmap ='inferno', vmin=-20, vmax=20)
     
     # This is just some plot style related code:
     cbar = plt.colorbar(sc)
@@ -319,7 +319,7 @@ def mfSpec(tauFunc,qList):
 
     #Initialize an empty list that will hold the f(alpha) values:
     mfList=[]
-    for i in range(len(tauFunc)):
+    for i in range(len(alphaList)):
         #Perform the operation for f(alpha) written above:
         mfList.append(qList[i]*alphaList[i]-tauFunc[i])
 
@@ -408,3 +408,63 @@ def magnitude(list):
   
     return np.array(bmagList)
 
+#############################################################################
+
+def phaseShuffle(timeSeries):
+    """
+    This is a function to randomize the phases of a time series.
+    
+    Parameters
+    ----------
+    timeSeries : 1D array
+        Input time series data f(t).
+
+    Returns
+    -------
+    shuffled_timeSeries : 1D array
+        The input time series with randomly shuffled phases.
+    """    
+
+    # First we take the FFT of the time series
+    FFT = np.fft.fft(timeSeries)
+    
+    # Now find the phases and magnitudes : 
+    phases = np.angle(FFT)
+    mag = np.abs(FFT)
+
+    # Randomize the phases: 
+    np.random.shuffle(phases)
+
+    # Now reconstruct the Fourier transform with randomized phases
+    FFT_shuffled = mag * np.exp(1j * phases)
+
+    # Finally, reconstruct the original function with the IFT
+    shuffled_timeSeries = np.fft.ifft(FFT_shuffled)
+
+    return shuffled_timeSeries
+
+#############################################################################
+
+def difference(time_series):
+    """
+    This function calculates the differenced time series:
+    			y_n = y_n - y_(n-1)
+    in order to make the data stationary.
+
+    Parameters
+    ----------
+    time_series : 1D array
+        Input time series data f(t).
+
+    Returns
+    -------
+    differenced_series : 1D array
+        The differenced time series from the input time series.
+
+    """
+    differenced_series = []
+    for i in range(1,len(time_series)):
+        # Calculate the above equation
+        differenced_series.append(time_series[i]-time_series[i-1]) 
+
+    return np.array(differenced_series) 

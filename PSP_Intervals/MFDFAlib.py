@@ -250,7 +250,7 @@ each value of q in the form : [[F_q1(s1),F_q1(s2),...],[F_q2(s1),F_q2(s1),...]]
     # For every q in our list of powers, we find the Hurst parameter:
     for dfa in dfaListT:
         # We fit to a 1st degree polynomial for a linear fit
-        H = np.polyfit(np.log(lag[2:len(lag)]),np.log(dfa[2:len(lag)]),1)[0]
+        H = np.polyfit(np.log(lag[2:len(lag)//2]),np.log(dfa[2:len(lag)//2]),1)[0]
         hList.append(H)
 
     return hList
@@ -442,3 +442,29 @@ def phaseShuffle(timeSeries):
     shuffled_timeSeries = np.fft.ifft(FFT_shuffled)
 
     return shuffled_timeSeries
+
+#############################################################################
+
+def difference(time_series):
+    """
+    This function calculates the differenced time series:
+    			y_n = y_n - y_(n-1)
+    in order to make the data stationary.
+
+    Parameters
+    ----------
+    time_series : 1D array
+        Input time series data f(t).
+
+    Returns
+    -------
+    differenced_series : 1D array
+        The differenced time series from the input time series.
+
+    """
+    differenced_series = []
+    for i in range(1,len(time_series)):
+        # Calculate the above equation
+        differenced_series.append(time_series[i]-time_series[i-1]) 
+
+    return np.array(differenced_series) 
