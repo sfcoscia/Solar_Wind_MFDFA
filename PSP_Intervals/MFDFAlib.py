@@ -157,7 +157,7 @@ def MFDFA_analysis(timeSeries, timeSeries2 = None):
 
 #############################################################################
 
-def flucFunc(bmag, lag, qList, order):
+def flucFunc(bmag, lag, qList, order, date_label):
     """  
     In this function, we calculate the fluctuation function of input magnetic
     field time series data.    
@@ -175,6 +175,8 @@ def flucFunc(bmag, lag, qList, order):
     order : int
        The order of the polynomial fitting performed in the calculation of the
        fluctuation function. 
+    date_label : String
+        Label for the plot.
 
     Returns 
     -------
@@ -189,7 +191,6 @@ def flucFunc(bmag, lag, qList, order):
 
     # Initialize the plots: 
     fig, ax = plt.subplots()
-
     """
        NOTE : 
        The structure of dfaList is of the form: [[F_s1(q1), F_s1(q2),...],[F_s2(q1),
@@ -207,7 +208,7 @@ def flucFunc(bmag, lag, qList, order):
     for q in range(len(dfaList.T)): # The transpose is taken here!
         # Here we plot the fluctuation function with a color bar for each q value:
         qArray=np.full(len(lag),qList[q])
-        sc = ax.scatter(logs,logdfa[q],c = qArray,s = 8, cmap ='inferno', vmin=-20, vmax=20)
+        sc = ax.scatter(logs,logdfa[q],c = qArray,s = 8, cmap ='RdGy', vmin=-20, vmax=20)
     
     # This is just some plot style related code:
     cbar = plt.colorbar(sc)
@@ -217,6 +218,7 @@ def flucFunc(bmag, lag, qList, order):
     plt.xlabel(r'$\log{s}$')
     plt.ylabel(r'$\log{F_q(s)}$')
     plt.title(r'$q$th-Order Fluctuation Function $F_q(s)$ vs. Lag $s$ (Log-Scale)')
+    plt.savefig(f'./plots/Order_{order}/Fluctuation_Functions/FlucFunc_{date_label}.png')
     plt.show()
     
     return lag,dfaList
@@ -250,7 +252,7 @@ each value of q in the form : [[F_q1(s1),F_q1(s2),...],[F_q2(s1),F_q2(s1),...]]
     # For every q in our list of powers, we find the Hurst parameter:
     for dfa in dfaListT:
         # We fit to a 1st degree polynomial for a linear fit
-        H = np.polyfit(np.log(lag[2:len(lag)//2]),np.log(dfa[2:len(lag)//2]),1)[0]
+        H = np.polyfit(np.log(lag),np.log(dfa),1)[0]
         hList.append(H)
 
     return hList
@@ -296,7 +298,7 @@ def mfSpec(tauFunc,qList):
 	exponent spectrum using the equation:
 
                  f(alpha) = q*alpha-tau(q), where alpha = tau'(q)
-   
+     
 	Parameters     
 	----------
     tauFunc : 1D array
@@ -323,7 +325,15 @@ def mfSpec(tauFunc,qList):
         #Perform the operation for f(alpha) written above:
         mfList.append(qList[i]*alphaList[i]-tauFunc[i])
 
-    return alphaList, mfList
+    # Here we calculate the multifractal strength:
+    alphaMax = np.max(alphaList)
+    alphaMin = np.min(alphaList)
+    deltaAlpha = alphaMax - alphaMin
+    # Now we calculate the Asymmetry parameter, which quantifies the skew:
+    alpha0 = alphaList[np.argmax(mfList)]
+    A = (alphaMax - alpha0)/(alpha0 - alphaMin)
+
+    return alphaList, mfList, deltaAlpha, A
 
 #############################################################################
 
