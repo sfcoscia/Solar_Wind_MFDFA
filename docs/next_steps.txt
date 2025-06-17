@@ -1,5 +1,5 @@
 Clean up code, transfer to Jupyter
-	Write notes in Markdown
+Write notes in Markdown
 Choose the right lags*
 Use the test cases - FGM*
 Look at cropped mag data
