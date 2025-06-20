@@ -12,13 +12,13 @@ First, clone the repo onto your local machine.
 Python 3 or later must be installed. One also needs a way of viewing a Jupyter
 Notebook.
 
-Install the following prerequisite libraraies:
+Install the required libraries:
 ```python
-pip3 install pyspedas MFDFA statsmodels matplotlib numpy scipy 
+pip3 install requirements.txt
 ``` 
 
 ### MMS1 Intervals
-To access the MMS1 interval analysis, enter the MMS1 Intervaldirectory:
+To access the MMS1 interval analysis, enter the MMS1 Interval directory:
 ```bash
 cd MMS1_Intervals
 ```
